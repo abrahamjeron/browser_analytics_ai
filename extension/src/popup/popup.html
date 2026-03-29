@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prism Debug</title>
+    <style>
+      body {
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        margin: 0;
+        padding: 12px;
+        min-width: 320px;
+        background: #0f172a;
+        color: #f8fafc;
+      }
+      h1 {
+        font-size: 14px;
+        margin: 0 0 8px 0;
+      }
+      .log {
+        max-height: 320px;
+        overflow: auto;
+        font-size: 12px;
+        line-height: 1.4;
+        background: #111827;
+        padding: 8px;
+        border-radius: 6px;
+      }
+      .item {
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+        padding: 6px 0;
+      }
+      .item:last-child {
+        border-bottom: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Signal Engine Log</h1>
+    <div id="log" class="log">Loading...</div>
+    <script type="module" src="./popup.ts"></script>
+  </body>
+</html>

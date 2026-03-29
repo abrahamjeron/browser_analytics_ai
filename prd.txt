@@ -1,0 +1,192 @@
+This is one of the cleanest early-stage product definitions I’ve seen—tight scope, strong philosophy, and realistic execution.
+I’m moving ahead with a build-ready PRD for a lean AI/product team.
+<prd_draft>
+PRD: Prism (MVP v1)1. Executive Summary
+Prism is a privacy-first, on-device decision companion that helps users understand and improve how they make decisions.
+Unlike traditional productivity or reflection tools, Prism does not analyze content (emails, messages, documents) or keystrokes. Instead, it passively observes lightweight behavioral signals (app usage, switching patterns, time context) to identify potential decision moments.
+Through a low-friction feedback loop—micro-confirmations and end-of-day outcome tagging—Prism builds a dataset of decision patterns and delivers a weekly insight connecting:
+Behavior + Feeling + Outcome → Actionable Pattern
+The MVP goal is not perfect detection, but to reliably generate a trusted “aha moment” within 3–5 days.
+2. Problem Statement
+Knowledge workers and founders operate in high-noise environments with constant context switching, interruptions, and time pressure.
+Key issues:
+Decisions are made unconsciously and under suboptimal conditions
+Reflection is inconsistent, biased, or absent
+No system exists to connect how decisions are made with how they turn out
+Existing tools are invasive (content tracking) or high-friction (journaling)
+Result:
+Users lack a reliable feedback loop to improve decision quality.
+3. Goals & ObjectivesPrimary Goal
+Deliver a clear, trusted weekly insight that helps users recognize a repeatable decision pattern.
+Secondary Goals
+Achieve consistent micro-confirmation engagement (≥60%)
+Capture ≥10–15 labeled decisions per user per week
+Build user trust through non-invasive design
+Validate willingness to pay for “progress insights”
+4. Target UsersPrimary Persona:
+Founders / Operators / Knowledge Workers
+Characteristics:
+Heavy desktop (macOS) usage
+High task-switching environments
+Cognitively overloaded
+Interested in self-optimization but dislike journaling
+Privacy-sensitive
+5. Core Product LoopStep 1: Detection
+System identifies candidate “decision moments” using behavioral heuristics.
+Step 2: Micro-confirmation
+User labels the moment in ≤2 seconds:
+Rushed
+Focused
+Distracted
+Overthinking
+Step 3: Outcome Capture
+End-of-day batch:
+👍 (worked out)
+👎 (did not)
+Step 4: Pattern Engine
+System correlates:
+Behavior signals
+User-labeled feeling
+Outcome
+Step 5: Weekly Insight (Aha Moment)
+User receives:
+Pattern
+Quantification
+Suggestion
+6. User Stories
+As a user, I want Prism to automatically detect potential decision moments so I don’t have to log them manually.
+As a user, I want to label decisions in under 2 seconds so it doesn’t interrupt my workflow.
+As a user, I want to review outcomes quickly at the end of the day.
+As a user, I want a weekly summary that clearly explains how my behavior impacts decision quality.
+As a user, I want the system to feel private and non-invasive so I trust it.
+7. Functional Requirements7.1 Detection Engine (MVP Rules-Based)Primary Trigger: Session Switch
+≥5 minutes in App A
+Switch to App B
+Total active session ≥15 minutes
+Secondary Trigger: Rapid Switching
+≥3 app switches within 2 minutes
+Backup Trigger: Time-Based
+If no prompt in 90 minutes → trigger once
+Constraints
+Max 4 prompts/day
+Min 20 minutes between prompts
+Suppress if 2 consecutive prompts ignored
+7.2 Prompt SystemPrimary Interface: macOS Notification
+Appears immediately after trigger
+Contains:
+Short contextual line
+4 label options
+Labels:
+Rushed
+Focused
+Distracted
+Overthinking
+Behavior:
+One-click selection
+Auto-dismiss in 10–15 seconds
+No persistence
+7.3 Menu Bar AppFunctions:
+Show pending/unanswered prompts
+Allow retroactive labeling
+Show simple counters:
+Decisions tracked today
+Provide access to weekly insight
+7.4 Outcome Capture (End-of-Day Batch)
+Prompt user once per day
+Show 3–5 recent labeled decisions
+Input:
+👍 / 👎
+Must complete in <10 seconds
+7.5 Pattern Engine (MVP)
+Rules-based correlation engine:
+Inputs:
+Label (feeling)
+Time of day
+Switching intensity
+Session length
+Notification density (proxy)
+Outputs:
+Pattern detection:
+e.g., “Rushed decisions during high switching windows”
+7.6 Weekly Insight Engine
+Output format:
+Pattern
+“You tend to rush decisions during high switching periods”
+Quantification
+“8 decisions, 75% led to worse outcomes”
+Suggestion
+“Avoid making important decisions during rapid switching periods”
+7.7 Notification Density (Proxy System)
+Since no OS permissions:
+Estimate via:
+Frequency of app switches
+Short-duration sessions
+Used as:
+Background variable in pattern engine
+8. Non-Functional RequirementsPerformance
+Detection latency <1 second
+No noticeable system slowdown
+Privacy
+No keystroke tracking
+No content access
+No screenshots
+All raw data stored locally (MVP can optionally use cloud for insights, but anonymized)
+Reliability
+Must work offline for detection + logging
+Graceful failure if data capture stops
+9. Technical Architecture (MVP)Layer 1: Data Capture
+App usage tracking (ActivityWatch or equivalent)
+Local event logging
+Layer 2: Processing Engine
+Rules-based detection engine
+Event queue
+Layer 3: Insight Generation
+Lightweight backend or API-based LLM
+Prompt templates for insight generation
+Layer 4: UI
+macOS menu bar app (Swift / Electron wrapper)
+Notification integration
+10. Data Model (Simplified)Decision Object
+timestamp_start
+timestamp_end
+trigger_type (primary / secondary / backup)
+app_context (IDs only, no content)
+session_length
+switching_count
+label (user input)
+outcome (👍 / 👎)
+11. Success MetricsProduct Metrics
+% prompts answered (target: >60%)
+Decisions logged per user/week (target: 10–20)
+Outcome completion rate (target: >50%)
+Core Success Metric
+% users who view weekly insight (target: >70%)
+Business Metric
+Free → paid conversion after 2–3 weeks
+12. Freemium ModelFree
+Detection + labeling
+Weekly insight (last 7 days)
+Limited history
+Paid
+30–90 day history
+Trend insights:
+“You’re improving / declining”
+Deeper correlations
+Suggestions layer
+Data export
+13. Out of Scope (MVP)
+On-device ML models
+Real-time nudges
+Mobile apps
+Windows support
+Content analysis
+Keystroke tracking
+Cross-device sync
+14. Assumptions & Dependencies
+Users are willing to respond to micro-prompts
+Behavioral proxies are “accurate enough”
+Weekly insight delivers perceived value
+macOS APIs allow sufficient activity tracking
+15. MVP Success Definition
+Prism MVP is successful if:
+Users consistently engage for 3–5 days and experience a clear, credible insight that changes how they think about their decisions.
